@@ -1,72 +1,160 @@
-class Animal(object):
+import time
+import random
 
-    def __init__(self, name):
-        self.name = name
-        self.health = 50
+class lab():
     
-    def walk(self):
-        self.health -= 1
-        return self
+    def __init__(self, tv_durum="Kapalı",tv_ses=0,kanal_listesi=["TRT"],kanal="TRT", mod="uydu", sesdurum=0):
 
-    def run(self):
-        self.health -= 5
-        return self
+        self.tv_durum=tv_durum
+        self.tv_ses=tv_ses
+        self.kanal_listesi=kanal_listesi
+        self.kanal= kanal
+        self.mod = mod
+        self.sesdurum = sesdurum 
 
-    def displayHealth(self):
-        print("{}'s health is {}".format(self.name, self.health))
-        return self
+    def tv_ac(self):
 
-class Dinosaur(Animal):
+        if (self.tv_durum  == "Kapalı"):
+            print("Tv açılıyor")
+            self.tv_durum="Açık"
+        else:
+            print("Tv zaten acik")
 
-    def __init__(self, name):
-        super(Dinosaur, self).__init__(name)
-        self.health = 150
-
-    def dis(self):
-        super(Dinosaur, self).displayHealth()
-        print("I am a Dinosaur")
-        return self
-
-
-class Orkinos(Animal):
+    def tv_kapat(self):
+        
+        if (self.tv_durum  == "Kapalı"):
+            print("Tv zaten kapalı")
+        
+        else:
+            print("Tv zaten kapaniyor")
+            self.tv_durum="Kapalı"
     
-    def __init__(self, name):
-        super(Orkinos, self).__init__(name)
-        self.health = 100
 
-    def swim(self):
-        self.health -= 3
-        return self
+    def ses_ayari(self):
 
-    def dis(self):
-        super(Orkinos, self).displayHealth()
-        print("I am a Orkinos")
-        return self
+        while True:
 
+            cevap=input("Sesi artır :>\nSesi azalt: <\nÇıkış: q")
 
-class Eagle(Animal):
+            if (cevap=='>'):
+                if self.tv_ses>=100:
+                    print("Max Ses")
+                else:
+                    self.tv_ses+=1
+                print("Tv Sesi: {}".format(self.tv_ses))
+            
+            elif (cevap=="<"):
+                if (self.tv_ses<=0):
+                    print("Min ses")
+                else:
+                    self.tv_ses-=1
+                print("tv_ses: {}",format(self.tv_ses))
+            elif (cevap=="q"):
+                break
+            else:
+                print("hatalı tuşlama")
+
+    def kanal_ekle(self,kanal):
+        if kanal in self.kanal_listesi:
+            print("Kanal zaten var")
+        else:
+            
+            print("Kanal ekleniyor...")
+            time.sleep(1)
+            
+
+            self.kanal_listesi.append(kanal)
+
+            print("Kanal listesi: {}".format(self.kanal_listesi))
+
+    def kanal_sec(self):
+
+        rastgele=random.randint(0,len(self.kanal_listesi)-1)
+
+        self.kanal=self.kanal_listesi[rastgele]
+        print(self.kanal)
+
+    def kanal_sil(self,kanal):
+        if kanal in self.kanal_listesi:
+            self.kanal_listesi.remove(kanal)
+            print(kanal, " silindi")
+        else:
+            print("Kanal zaten kayıtlı değil")
     
-    def __init__(self, name):
-        super(Eagle, self).__init__(name)
-        self.health = 60
+    def mod_degistir(self):
+        if self.mod=="iptv":
+            self.mod = "uydu"
+        else:
+            self.mod = "iptv"
 
-    def fly(self):
-        self.health -= 10
-        return self
+    def mute(self):
+        if self.tv_ses > 0:
+            self.sesdurum = self.tv_ses
+            self.tv_ses =0
+            print("ses kapatıldı")
+        else:
+            self.tv_ses = self.sesdurum
+            print("ses açıldı")
+    
+    def __len__(self):
+        return len(self.kanal_listesi)
+    
+    def __str__(self):
+        return "Tv_durum: {}\ntv_ses: {}\nkanal listesi: {}\nkanal:{}".format(self.tv_durum,self.tv_ses,self.kanal_listesi,self.kanal)
 
-    def dis(self):
-        super(Eagle, self).displayHealth()
-        print("I am a Eagle")
-        return self
+print("""
 
-test = Animal("test")
-test.walk().walk().walk().run().run().displayHealth()
+        1. TV aç
+        2. TV kapat
+        3. Ses Ayarları
+        4. Kanal Ekle
+        5. Açık Kanalı Öğren
+        6. Kanal Sayısı
+        7. TV Bilgileri
+        8. Mod değiştir (ip tv / uydu)
 
-test2 = Dinosaur("test2")
-test2.walk().walk().walk().run().run().displayHealth()
+Çıkmak için q'ya bas.
 
-test3 = Eagle("test3")
-test3.fly().dis()
+""")
+kumanda=Kumanda()
 
-test4 = Orkinos("test4")
-test4.swim().dis()
+while True:
+
+    islem= input("İslem seçiniz")
+
+    if islem =="q":
+        print("Sonlandırılıyor")
+     
+    elif islem =="1":
+        kumanda.tv_ac()
+    
+    elif islem=="2":
+        kumanda.tv_kapat()
+
+    elif islem=="3":
+        kumanda.ses_ayari()
+    
+    elif islem=="4":
+
+        kanal_isimleri=input("Kanal isimlerini lütfen , ile ayırarak giriniz.")
+
+        x=kanal_isimleri.split(",")
+
+        for i in x:
+            kumanda.kanal_ekle(i)
+    
+    elif islem=="5":
+        kumanda.kanal_sec()
+
+    elif islem=="6":
+        print("Kanal sayısı: ",len(kumanda))
+    
+    elif islem=="7":
+        print(kumanda)
+    
+    else:
+        print("hatalı Tuşlama")
+
+
+
+    

@@ -3,14 +3,6 @@ class Animal(object):
     def __init__(self, name):
         self.name = name
         self.health = 50
-    
-    def walk(self):
-        self.health -= 1
-        return self
-
-    def run(self):
-        self.health -= 5
-        return self
 
     def displayHealth(self):
         print("{}'s health is {}".format(self.name, self.health))
@@ -21,6 +13,14 @@ class Dinosaur(Animal):
     def __init__(self, name):
         super(Dinosaur, self).__init__(name)
         self.health = 150
+    
+    def walk(self):
+        self.health -= 1
+        return self
+
+    def run(self):
+        self.health -= 5
+        return self
 
     def dis(self):
         super(Dinosaur, self).displayHealth()
@@ -50,6 +50,10 @@ class Eagle(Animal):
         super(Eagle, self).__init__(name)
         self.health = 60
 
+    def walk(self):
+        self.health -= 1
+        return self
+
     def fly(self):
         self.health -= 10
         return self
@@ -59,8 +63,6 @@ class Eagle(Animal):
         print("I am a Eagle")
         return self
 
-test = Animal("test")
-test.walk().walk().walk().run().run().displayHealth()
 
 test2 = Dinosaur("test2")
 test2.walk().walk().walk().run().run().displayHealth()
